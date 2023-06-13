@@ -4,34 +4,33 @@ This repository contains the infrastructure code and configurations for setting 
 
 ## Terraform
 
-The `terraform/` directory contains the Terraform code for provisioning the infrastructure components.
+The `GKE-terraform/` directory contains the Terraform code for provisioning the infrastructure components.
 
 ### GKE Module
 
-The `terraform/modules/gke` directory contains the Terraform module for creating a private GKE cluster and node pool. It sets up the necessary networking and security configurations for the cluster.
+The `GKE-terraform/gke` directory contains the Terraform module for creating a private GKE cluster and node pool. It sets up the necessary networking and security configurations for the cluster.
 
 ### Network Module
 
-The `terraform/modules/network` directory contains the Terraform module for creating the network components such as NAT subnet, VPC, and router. It provides the networking infrastructure required for the GKE cluster and other resources.
+The `GKE-terraform/network` directory contains the Terraform module for creating the network components such as VPC, subnetwork, NAT, and router. It provides the networking infrastructure required for the GKE cluster and other resources.
 
 ### Bastion Server Module
 
-The `terraform/modules/bastion` directory contains the Terraform module for creating a bastion server. The bastion server acts as a jump host for accessing resources within the private network, including the GKE cluster.
+The `GKE-terraform/bastion` directory contains the Terraform module for creating a bastion server. The bastion server acts as a jump host for accessing resources within the private network, including the GKE cluster.
 
 #### Backend Configuration
 
-This repository uses a Google Cloud Storage (GCS) bucket as the backend for storing the Terraform state file. To configure the backend, update the `backend.tf` file in each module directory with your GCS bucket information:
+This repository uses a Google Cloud Storage (GCS) bucket as the backend for storing the Terraform state file. To configure the backend, update the `provider.tf` file with your GCS bucket information:
 
 ```hcl
 terraform {
   backend "gcs" {
     bucket  = "<your-bucket-name>"
     prefix  = "<optional-prefix>"
-    credentials = "<path-to-service-account-key-json>"
   }
 }
 ```
-Make sure to replace <your-bucket-name> with the name of your GCS bucket, <optional-prefix> with an optional prefix for your state file.
+> :warning: Make sure to replace <your-bucket-name> with the name of your GCS bucket, <optional-prefix> with an optional prefix for your state file.
 
 ## Usage
 To provision the infrastructure and deploy Jenkins, follow these steps:
@@ -58,7 +57,7 @@ The `Jenkins-master&slave-chart/templates` directory contains the Helm template 
 ## Usage
 To deploy Jenkins on the GKE cluster using Helm, follow these steps:
 
-Update the Helm chart values in the charts/jenkins/values.yaml file to match your requirements.
+> :warning: Update the Helm chart values in the charts/jenkins/values.yaml file to match your requirements.
 
 ```hcl
 helm install <You-release-name> ./Jenkins-master&slave-chart
@@ -127,6 +126,8 @@ To deploy Jenkins on the GKE cluster using Ansible, follow these steps:
 - You need another one for the Jenkins agent SSH credentials in our case set the name to ahmad and the password to 123456 and set its ID to "jenkins"
 - You also need a credential of type "Secret file" to upload the Kubeconfig file from your agent after you connect to the cluser.
 - Jenkins will validate and store the credentials for future use.
-
+  
+  Once you completed the preceding steps now it is time to spin up your first application using Jenkins pipeline.
+  Check out the App repository here https://github.com/Ahmadshata/App
   
   
