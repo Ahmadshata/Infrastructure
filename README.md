@@ -33,7 +33,7 @@ terraform {
 ```
 Make sure to replace <your-bucket-name> with the name of your GCS bucket, <optional-prefix> with an optional prefix for your state file.
 
-Usage
+## Usage
 To provision the infrastructure and deploy Jenkins, follow these steps:
 
 Modify the configuration files in the terraform/ directory to customize your infrastructure settings.
@@ -55,7 +55,7 @@ The `Jenkins-master&slave-chart/` directory contains the Kubernetes Helm chart f
 
 The `Jenkins-master&slave-chart/templates` directory contains the Helm template for deploying Jenkins. It allows you to configure various aspects of the Jenkins deployment, including resource allocation, persistence, and other settings.
 
-##Usage
+## Usage
 To deploy Jenkins on the GKE cluster using Helm, follow these steps:
 
 Update the Helm chart values in the charts/jenkins/values.yaml file to match your requirements.
@@ -63,7 +63,7 @@ Update the Helm chart values in the charts/jenkins/values.yaml file to match you
 ```hcl
 helm install <You-release-name> ./Jenkins-master&slave-chart
 ```
-###Access Jenkins:
+### Access Jenkins:
 
 Once the deployment is successful, you can access Jenkins by retrieving the external IP associated with the Jenkins LoadBalancer service.
   
