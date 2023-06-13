@@ -1,0 +1,5 @@
+package:  nginx
+message: "Hello! your first role completed impeccably"
+files:
+  - script.js
+  - cascade.css

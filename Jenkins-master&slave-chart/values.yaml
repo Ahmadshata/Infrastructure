@@ -1,0 +1,15 @@
+replicaCount: 1
+
+image:
+  repository: ahmadesmailshata
+  name: enhanced-agent
+  tag: ""
+  pullPolicy: IfNotPresent
+
+labels:
+  app: jenkins-server
+  env: prod
+
+service:
+  type: LoadBalancer
+

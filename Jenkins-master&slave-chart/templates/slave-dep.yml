@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-jenkins-agent
+  namespace: jenkins
+  labels:
+        {{- include "mylabels" . | indent 4}}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: jenkins-agent
+  template:
+    metadata:
+      labels:
+        app: jenkins-agent
+    spec:
+      serviceAccountName: my-service-account
+      containers:
+      - name: jenkins-agent
+{{- with .Values.image }}
+{{- if .name }}
+        image: {{ .repository }}/{{ .name }}
+{{- else }}
+        image: ahmadesmailshata/enhanced-agent
+{{- end }}
+{{- end }}
+        # resources:
+        #     limits:
+        #       memory: "2Gi"
+        #       cpu: "1000m"
+        #     requests:
+        #       memory: "500Mi"
+        #       cpu: "500m"
+        ports:
+        - containerPort: 22
+        volumeMounts:
+          - mountPath: /var/run/docker.sock
+            name: docker-sock
+      volumes:
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock

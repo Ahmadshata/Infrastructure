@@ -1,0 +1,11 @@
+- name: Run a script 
+  ansible.builtin.script: script.sh
+- name: Connect to GKE
+  ansible.builtin.command: gcloud container clusters get-credentials my-gke --zone us-central1-a --project shata-387907 
+- name: Copy file with owner and permissions
+  ansible.builtin.copy:
+    src:  jenkins 
+    dest: .
+- name: Install jenkins master and slave
+  ansible.builtin.command: helm install first-release ./jenkins
+
