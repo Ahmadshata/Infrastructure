@@ -94,5 +94,39 @@ To deploy Jenkins on the GKE cluster using Ansible, follow these steps:
   ansible-playbook -i <path-to-your-private-key> playbook.yaml
 ```
 
+## Set up the Jenkins agent:
+
+- Log in to your Jenkins server and navigate to the Jenkins dashboard.
+- Click on "Manage Jenkins" in the left sidebar.
+- Click on "Manage Nodes and Clouds."
+- Click on "New Node" to create a new Jenkins agent.
+- Provide a name for the agent (e.g., "portfolio-agent") and select the appropriate options based on your configuration.
+- Make the Remote root directory to be /var/jenkins_home.
+- Set the label for the agent to be myagent.
+- Choose Launch method to be SSH.
+- Put the Host as the Jenkins agent service name which is "jenkins-ubuntu-slave-svc"
+- See the credentials section below on how to learn how to create SSH credentials and then add them to the credentials section.
+- Save the agent configuration.
+- Download Gcloud Auth Plugin using the command below when you are logged in to your agent using the jenkins user.
+  
+```shell
+ apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
+```
+- Connect to the GKE cluster using the connect commaned provided in the console.
+
+## Configure Jenkins credentials:
+
+- Log in to your Jenkins server and navigate to the Jenkins dashboard.
+- Click on "Manage Jenkins" in the left sidebar.
+- Click on "Manage Credentials" to access the credentials management page.
+- On the Credentials page, click on the "Global" domain or select an appropriate domain based on your requirements.
+- Under the "Credentials" section, click on the "Add Credentials" link.
+- Select the appropriate credential type based on your needs. 
+- For this Jenkins pipeline. You Need to create two "Username with password" credentials.
+- You need one for docker hub account and set its ID to "dockerhub"
+- You need another one for the Jenkins agent SSH credentials in our case set the name to ahmad and the password to 123456 and set its ID to "jenkins"
+- You also need a credential of type "Secret file" to upload the Kubeconfig file from your agent after you connect to the cluser.
+- Jenkins will validate and store the credentials for future use.
+
   
   
