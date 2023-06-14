@@ -33,6 +33,10 @@ resource "google_container_cluster" "primary" {
   workload_pool = "shata-387907.svc.id.goog"
 }
 
+  workload_metadata_config {
+      mode = "GKE_METADATA"
+    }
+
   release_channel {
     channel = "REGULAR"
   }
@@ -54,10 +58,6 @@ resource "google_container_node_pool" "node-pool" {
   node_config {
     preemptible  = false
     machine_type = var.node-pool-machine_type
-  }
-
-  workload_metadata_config {
-    mode = "GKE_METADATA"
   }
 }
 
