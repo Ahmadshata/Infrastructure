@@ -27,6 +27,11 @@ resource "google_container_cluster" "primary" {
     display_name = var.authorized-network-name-2
         }
     }
+
+#to configure Kubernetes workloads with GCP service accounts.
+  workload_identity_config {
+  workload_pool = "shata-387907.svc.id.goog"
+}
     
   release_channel {
     channel = "REGULAR"
@@ -49,6 +54,10 @@ resource "google_container_node_pool" "node-pool" {
   node_config {
     preemptible  = false
     machine_type = var.node-pool-machine_type
+  }
+
+  workload_metadata_config {
+    mode = "GKE_METADATA"
   }
 }
 
