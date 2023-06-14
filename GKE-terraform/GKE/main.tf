@@ -32,7 +32,7 @@ resource "google_container_cluster" "primary" {
   workload_identity_config {
   workload_pool = "shata-387907.svc.id.goog"
 }
-    
+
   release_channel {
     channel = "REGULAR"
   }

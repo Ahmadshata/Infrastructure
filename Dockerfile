@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y \
     init \
     openssh-server openssh-client \
     docker.io \
+    sudo \
     vim \
  && rm -rf /var/lib/apt/lists/*
  
@@ -40,7 +41,6 @@ RUN CLOUDSDK_CORE_DISABLE_PROMPTS=1 ./google-cloud-sdk/install.sh
 ENV PATH /home/jenkins/google-cloud-sdk/bin:$PATH
 RUN gcloud components install gke-gcloud-auth-plugin
 
-    
 #install kubectl
 RUN apt update && apt-get install gnupg gnupg1 gnupg2 -y
 RUN curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
