@@ -31,6 +31,7 @@ RUN apt-get update && apt-get install -y \
  RUN curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 -o get_helm.sh  \
     && chmod 700 get_helm.sh \
     && ./get_helm.sh
+
 #to use sudo with user jenkins uncomment the next line.
 #RUN usermod -aG sudo jenkins
 
