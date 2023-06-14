@@ -23,6 +23,7 @@ RUN apt-get update && apt-get install -y \
     init \
     openssh-server openssh-client \
     docker.io \
+    sudo \
     vim \
  && rm -rf /var/lib/apt/lists/*
  
@@ -30,6 +31,16 @@ RUN apt-get update && apt-get install -y \
  RUN curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 -o get_helm.sh  \
     && chmod 700 get_helm.sh \
     && ./get_helm.sh
+
+#to use sudo with user jenkins uncomment the next line.
+#RUN usermod -aG sudo jenkins
+
+#install Gcloud
+RUN curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-434.0.0-linux-x86_64.tar.gz
+RUN tar -xf google-cloud-cli-434.0.0-linux-x86_64.tar.gz
+RUN CLOUDSDK_CORE_DISABLE_PROMPTS=1 ./google-cloud-sdk/install.sh
+ENV PATH /home/jenkins/google-cloud-sdk/bin:$PATH
+RUN gcloud components install gke-gcloud-auth-plugin
     
 #install kubectl
 RUN apt update && apt-get install gnupg gnupg1 gnupg2 -y
