@@ -63,3 +63,7 @@ resource "google_container_node_pool" "node-pool" {
   }
 }
 
+resource "google_service_account" "sa" {
+  account_id         = "agent-gsa"
+  display_name       = "A service account that will be bound with genkins slave's kubernetes service account"
+}

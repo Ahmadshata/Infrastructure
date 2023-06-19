@@ -52,5 +52,5 @@ resource "google_compute_firewall" "allow-ssh" {
     ports    = ["22"]
   }
 
-  source_ranges = [var.subnet-cidr, "156.201.111.195/32"]
+  source_ranges = [var.subnet-cidr, "156.203.127.199/32"]
 }

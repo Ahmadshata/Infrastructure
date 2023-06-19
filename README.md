@@ -57,6 +57,39 @@ The `Jenkins-master&slave-chart/templates` directory contains the Helm template 
 ## Usage
 To deploy Jenkins on the GKE cluster using Helm, follow these steps:
 
+First things first we need to handle the jenkins slave permission so that everything is done simultaneously and we don't have to authenticate manually.
+
+There are two ways to do so:
+
+- Give the "roles/container.clusterAdmin" role to service account we are using for the cluster nodes, but this is not the best solution as every pod that will be deployed on this node will have the same role and we don't want that in this case.
+
+- Use Workload Identity which allows workloads in your GKE clusters to impersonate Identity and Access Management (IAM) service accounts to access Google Cloud services. 
+
+    - We first need to activate it in the cluster and the node pool and the terraform already got that covered.
+
+    - We need to have a google service account which will be created by the terraform code.
+
+    - We need a kubernetes service account with the annotations: iam.gke.io/gcp-service-account: <service-account-name>@<project-id>.iam.gserviceaccount.com
+
+    - We need a role binding between the Kubernetes Service Account (KSA) and the Google Service Account (GSA).
+
+    - When we run helm install the KSA will be deployed and it has the annotations required ( if you changed the GSA name make sure to    change it in the  annotations in /Jekins-master&slave-chart/templates/slave-sa.yml)
+
+    - To bind the the KSA with the GSA and give the GSA the required permissions we will run the two commands bellow:
+    ```bash
+      gcloud projects add-iam-policy-binding shata-387907 \
+      --member "serviceAccount:agent-gsa@shata-387907.iam.gserviceaccount.com" \
+      --role "roles/container.clusterAdmin"
+    ```
+First one to attach the cluster admin role to the GSA "agent-gsa"
+
+  ```bash
+    gcloud iam service-accounts add-iam-policy-binding agent-gsa@shata-387907.iam.gserviceaccount.com \
+    --role roles/iam.workloadIdentityUser \
+    --member "serviceAccount:shata-387907.svc.id.goog[jenkins/agent-ksa]" 
+  ```
+Second command to allow the Kubernetes service account to impersonate the IAM service account by adding an IAM policy binding between the two service accounts. This binding allows the Kubernetes service account to act as the IAM service account.
+
 > :warning: Update the Helm chart values in the charts/jenkins/values.yaml file to match your requirements.
 
 ```hcl

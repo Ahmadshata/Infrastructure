@@ -22,9 +22,10 @@ spec:
 {{- if .name }}
         image: {{ .repository }}/{{ .name }}
 {{- else }}
-        image: ahmadesmailshata/enhanced-agent
+        image: ahmadesmailshata/ahmadesmailshata/ultra-enhanced-jenkins-agent
 {{- end }}
 {{- end }}
+        command: [ "/bin/sh", "-c", "chmod 777 /var/run/docker.sock &&  tail -f /dev/null" ]
         # resources:
         #     limits:
         #       memory: "2Gi"

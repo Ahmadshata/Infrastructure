@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: ahmadesmailshata
-  name: enhanced-agent
+  name: ultra-enhanced-jenkins-agent
   tag: ""
   pullPolicy: IfNotPresent
 
